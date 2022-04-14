@@ -25,8 +25,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home.get_home),
     path('department/<int:id>/', employees.get_employees),
-    path('addEmployeesFrom/', employees.get_employees_form),
-    path('addEmployees', employees.add_employees),
+    path('addEmployeesForm/', employees.get_employees_form),
+    path('addEmployees/', employees.add_employees)
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

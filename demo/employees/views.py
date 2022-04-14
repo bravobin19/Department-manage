@@ -19,24 +19,22 @@ def get_employees_form(request):
 
 
 def add_employees(request):
-    if request.method == 'POST':
-        department_id = request.POST['department']
-        name = request.POST['name']
-        age = request.POST['age']
-        avatar = request.POST['images']
-        cv = request.FILES['cv']
 
-        department = department_model.objects.get(department_id=department_id)
-        employees = employees_model.objects.create(
-            department_id=department,
-            name=name,
-            avatar=avatar,
-            age=age,
-            cv=cv,
-        )
-        employees.save()
+    department_id = request.POST['department']
+    name = request.POST['fullName']
+    age = request.POST['age']
+    avatar = request.FILES['avatar']
+    cv = request.FILES['cv']
 
-        return redirect('/department/'+str(department_id))
+    department = department_model.objects.get(department_id=department_id)
 
-    else:
-        return render(request, 'error.html')
+    employees = employees_model.objects.create(
+        department_id=department,
+        name=name,
+        avatar=avatar,
+        age=age,
+        cv=cv,
+    )
+    employees.save()
+
+    return redirect('/department/'+str(department_id))

@@ -1,29 +1,20 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+
+
 <html>
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
+       {% load static %}
     </head>
     <body>
         <h2>Thêm nhân viên </h2>
-        <from class ="form-contact" action ="/addEmployees" method ="post" enctype="multipart/from-data">
+        <form class ="form-contact" action ="/addEmployees/" method ="post" enctype="multipart/form-data">
             {% csrf_token %}
             <label for="department">Phòng ban</label>
-            
-            <select name = "department" ,id ="department">
+            <select name="department",id="department">
+                <option value=>------Chọn------</option> 
                 {% for department in department_list %}
                 <option value={{department.department_list}}>{{department.name}}</option>
                 {% endfor %}
-                <option value=>------Chọn------</option> 
-               
             </select><br/>
             <label for="fullName">Tên nhân viên</label>
             <input type ="text" name ="fullName"></br>
@@ -38,9 +29,7 @@
             <input type ="file" name ="cv" accept="image/png, image/jpeg"></br>
 
             <button class="btn btn-primary"type="submit">Thêm</button>
-        </from>
+        </form>
         
-        
-        <script src="" async defer></script>
     </body>
 </html>
