@@ -15,18 +15,38 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from home.models import department
+
 from home import views as home
 from employees import views as employees
 from django.conf.urls.static import static
 from django.conf import settings
+from django.contrib import admin
+from django.urls import path, include
+from django.views.generic.base import TemplateView
+from accounts.views import SignUpView
+from home.views import SearchResultsView
 
 
 urlpatterns = [
+    path('', home.get_home, name="home"),
     path('admin/', admin.site.urls),
-    path('', home.get_home),
-    path('department/<int:id>/', employees.get_employees),
+    path("accounts/", include("django.contrib.auth.urls")),
+    path('department/<int:id>/', employees.get_employees, name="listemployees"),
     path('addEmployeesForm/', employees.get_employees_form),
-    path('addEmployees/', employees.add_employees)
+    path('addEmployees/', employees.add_employees),
+    path('editEmployees/<int:id>/', employees.edit_employees),
+    path('updateemployees/<int:id>', employees.update_employees),
+    path("signup/", SignUpView.as_view(), name="signup"),
+    path("search/", SearchResultsView.as_view(), name="search_results"),
+    path('addDepartmentForm/', home.get_department_form),
+    path('addDepartment/', home.add_department),
+    path('deleteEmployees/<int:id>', employees.delete_employees),
+    #path('deleteDepartment/', home.delete_department),
+    path('delete/<int:id>', home.delete, name='delete'),
+
+
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

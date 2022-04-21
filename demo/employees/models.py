@@ -1,7 +1,4 @@
-from distutils.command.upload import upload
-from email.policy import default
 from django.db import models
-
 from home.models import department
 
 # Create your models here.
