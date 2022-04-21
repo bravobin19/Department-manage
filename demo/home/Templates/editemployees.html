@@ -10,31 +10,32 @@
     <body>
         <center>
             <h1>Chỉnh sửa thông tin nhân viên</h1></br>
-            <form method= "POST","FILES" action = "/updateemployees/{{employees.employees_id}}">
+            <form method= "POST" action = "/updateemployees/{{employees.employees_id}}" enctype="multipart/form-data">
                 
                 {% csrf_token %}
+             
             <table border = "1">
+                
                 <tr>
                     <td>Id </td>
-                    <td><input type = "text" name ="id" value = "{{employees.employees_id}}"></td>
+                    <td> {{employees.employees_id}}</td>
                 </tr>
                 <tr>
                     <td>Họ và tên</td>
-                    <td><input type = "text" name= "name"value= "{{employees.name}}"></td>
+                    <td><input type = "text" name= "name"value= "{{employees.name}}" required></td>
                 </tr>
-                <tr>
-                    <td>Tuổi</td>
-                    <td><input type = "text" name ="age" value = "{{employees.age}}"</td>
-                </tr>
+                
                 <tr>
                     <td>Ảnh</td>
-                    <td><input type = "file" name = "avatar" value = "{{employees.avatar}}"></td>
+                    <td><img src ="/home/media/{{employees.avatar}}" alt =""class="img" style
+                        = "width : 80px ;height:80px;"/><input type = "file" name = "avatar" value = "{{employees.avatar}}"></td>
                 </tr>
                 <tr>
                     <td>Cv</td>
-                    <td><input type = "file" name = "cv" value = "{{employees.cv}}"></td>
-                </tr>
+                    <td><input type = "file" name = "cv" value = "{{employees.cv}}" ></td>
+              
             </table>
+            
             <input type="submit" value = "update"/>
           
         </form>

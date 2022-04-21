@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from employees.views import searchemployees
 from home.models import department
 
 from home import views as home
@@ -39,6 +40,7 @@ urlpatterns = [
     path('updateemployees/<int:id>', employees.update_employees),
     path("signup/", SignUpView.as_view(), name="signup"),
     path("search/", SearchResultsView.as_view(), name="search_results"),
+    path("searchemployees/", searchemployees.as_view(), name="searchemployees"),
     path('addDepartmentForm/', home.get_department_form),
     path('addDepartment/', home.add_department),
     path('deleteEmployees/<int:id>', employees.delete_employees),

@@ -17,14 +17,14 @@ def get_home(request):
 
 
 class SearchResultsView(ListView):
-    model = employees
+    model = department_model
     template_name = 'search_results.html'
 
     def get_queryset(self):  # new
         query = self.request.GET.get("q")
-        object_list = employees.objects.filter(
+        object_list = department_model.objects.filter(
             Q(name__icontains=query) | Q(
-                employees_id__icontains=query)
+                department_id__icontains=query)
         )
         return object_list
 
@@ -47,19 +47,8 @@ def get_department_form(request):
     return render(request, 'departmentform.html')
 
 
-# def delete_department(request, id):
-
-    department = department_model.objects.filter(department_id=id)
-    request.user == department.manager
-    department.delete()
-
-    return redirect('/')
-
-
 def delete(request, id):
     member = department_model.objects.get(department_id=id)
     member.delete()
-    
+
     return redirect('/')
-    
-    

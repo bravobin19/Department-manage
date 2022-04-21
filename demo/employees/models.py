@@ -9,9 +9,9 @@ class employees (models.Model):
     department_id = models.ForeignKey(
         department, default=None, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=False)
-    age = models.IntegerField(null=True)
-    avatar = models.ImageField(upload_to='images', null=False, default=None)
-    cv = models.FileField(upload_to='files', null=False, default=None)
+    age = models.DateField(null=True)
+    avatar = models.ImageField(upload_to='images', default=None)
+    cv = models.FileField(upload_to='files', default=None)
 
 
 def __str__(self):

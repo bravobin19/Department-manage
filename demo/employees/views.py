@@ -1,5 +1,6 @@
 
 from email import message
+
 from turtle import update
 from django.shortcuts import render, redirect
 
@@ -9,6 +10,7 @@ from home.models import department as department_model
 from .models import employees
 from django.views.generic import TemplateView, ListView
 # Create your views here.
+from django.db.models import Q
 
 
 def get_employees(request, id):
@@ -56,20 +58,21 @@ def edit_employees(request, id):
 
 def update_employees(request, id):
     name = request.POST['name']
-    age = request.POST['age']
+    avatar = request.FILES.get('avatar')
+    cv = request.FILES.get('cv')
 
     employees = employees_model.objects.get(employees_id=id)
 
     employees.name = name
-    employees.age = age
+
+    if avatar:
+        employees.avatar = avatar
+
+    if cv:
+        employees.cv = cv
 
     employees.save()
     return render(request, "editemployees.html", )
-
-
-class SearchResultsView(ListView):
-    model = employees
-    template_name = 'search_results.html'
 
 
 def delete_employees(request, id):
@@ -77,3 +80,16 @@ def delete_employees(request, id):
     member.delete()
 
     return render(request, 'done.html')
+
+
+class searchemployees(ListView):
+    model = employees
+    template_name = 'searchemployees.html'
+
+    def get_queryset(self):  # new
+        query = self.request.GET.get("q")
+        object_list = employees.objects.filter(
+            Q(name__icontains=query) | Q(
+                employees_id__icontains=query)
+        )
+        return object_list

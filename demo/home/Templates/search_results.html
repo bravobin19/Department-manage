@@ -22,8 +22,8 @@
     <h1>Search Results</h1>
 
     <ul>
-      {% for employees in employees_list %}
-      <li>{{ employees.name }}, {{ employees.employees_id}},{{department.name}}</li>
+      {% for department in department_list %}
+      <li>{{department.name}}</li>
       {% endfor %}
     </ul>
   </body>
