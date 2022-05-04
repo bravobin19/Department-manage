@@ -3,7 +3,8 @@ from email import message
 
 from turtle import update
 from django.shortcuts import render, redirect
-
+from datetime import datetime
+from dateutil import parser
 
 from .models import employees as employees_model
 from home.models import department as department_model
@@ -26,6 +27,11 @@ def get_employees_form(request):
 
 
 def add_employees(request):
+    context = {
+        'error': 0,
+        'msg': ''
+    }
+
     if request.method == 'POST':
 
         department_id = request.POST['department']
@@ -35,20 +41,39 @@ def add_employees(request):
         avatar = request.FILES['avatar']
         cv = request.FILES['cv']
 
-        department = department_model.objects.get(department_id=department_id)
+        # Check valid name
+        # Check length <=255
+        if not name:
+            context['error'] = 1
+            context['msg'] = 'Name not valid'
+        # Check Valid age
+        if age:
+            try:
+                age_datetime = parser.parser(age)
+            except:
+                context['error'] = 1
+                context['msg'] = 'Age not valid'
+        else:
+            context['error'] = 1
+            context['msg'] = 'Age not valid'
+        #
 
-        employees = employees_model.objects.create(
-            department_id=department,
-            name=name,
-            avatar=avatar,
-            age=age,
-            cv=cv,
-        )
-        employees.save()
-        return redirect('/department/'+str(department_id))
+        #
+        if not context['error']:
+            department = department_model.objects.get(
+                department_id=department_id)
 
-    else:
-        return render(request, 'error.html')
+            employees = employees_model.objects.create(
+                department_id=department,
+                name=name,
+                avatar=avatar,
+                age=age,
+                cv=cv,
+            )
+            employees.save()
+            return redirect('/department/'+str(department_id))
+
+    return render(request, 'error.html', context=context)
 
 
 def edit_employees(request, id):

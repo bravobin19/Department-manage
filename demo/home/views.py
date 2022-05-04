@@ -1,3 +1,5 @@
+from lib2to3.fixes.fix_input import context
+
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, ListView
 
@@ -30,17 +32,26 @@ class SearchResultsView(ListView):
 
 
 def add_department(request):
+    context = {
+        'error': 0,
+        'msg': ''
+    }
+
     if request.method == 'POST':
         name = request.POST['dname']
+        if not name:
+            context['error'] = 1
+            context['msg'] = 'Name not valid'
 
-        department = department_model.objects.create(
-            name=name,
-        )
-        department.save()
+        if not context['error']:
+            department = department_model.objects.create(
+                name=name,
+            )
+            department.save()
 
         return redirect('/')
-    else:
-        return render(request, 'error.html')
+
+    return render(request, 'error.html', context=context)
 
 
 def get_department_form(request):
