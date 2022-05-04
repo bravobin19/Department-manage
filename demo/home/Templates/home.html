@@ -23,7 +23,7 @@
     {% endif %}
     {% if user.is_authenticated %}
     <form action="{% url 'search_results' %}" method="get">
-      <input name="q" type="text" placeholder="Search..." />
+      <input name="q" type="text" placeholder="Search..." / required>
     </form>
     
     <center><h3>Công ty ABC</h3></center>
