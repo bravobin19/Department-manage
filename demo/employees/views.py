@@ -82,13 +82,11 @@ def edit_employees(request, id):
 
 
 def update_employees(request, id):
-    name = request.POST['name']
+
     avatar = request.FILES.get('avatar')
     cv = request.FILES.get('cv')
 
     employees = employees_model.objects.get(employees_id=id)
-
-    employees.name = name
 
     if avatar:
         employees.avatar = avatar
