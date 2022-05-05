@@ -109,7 +109,7 @@ class searchemployees(ListView):
     model = employees
     template_name = 'searchemployees.html'
 
-    def get_queryset(self, request):
+    def get_queryset(self):
         context = {
             'error': 0,
             'msg': ''
