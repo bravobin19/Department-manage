@@ -109,21 +109,20 @@ class searchemployees(ListView):
     model = employees
     template_name = 'searchemployees.html'
 
-    def get_queryset(self,request): 
+    def get_queryset(self, request):
         context = {
-        'error': 0,
-        'msg': ''
-    }
- 
-        if request.method == "POST":
-            q = request.POST['q']
-            if not q :
-                context['error'] = 1
-                context['msg'] = 'Name not valid'
-            if not context['error']:
-                query = self.request.GET.get("q")
-                object_list = employees.objects.filter(
-                    Q(name__icontains=query) | Q(
-                        employees_id__icontains=query)
-                )
+            'error': 0,
+            'msg': ''
+        }
+
+        query = self.request.GET.get("q")
+        if not query:
+            context['error'] = 1
+            context['msg'] = 'Name not valid'
+        if not context['error']:
+            query = self.request.GET.get("q")
+            object_list = employees.objects.filter(
+                Q(name__icontains=query) | Q(
+                    employees_id__icontains=query)
+            )
         return object_list

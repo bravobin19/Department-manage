@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from lib2to3.fixes.fix_input import context
 
 from django.shortcuts import redirect, render
@@ -22,12 +23,22 @@ class SearchResultsView(ListView):
     model = department_model
     template_name = 'search_results.html'
 
-    def get_queryset(self):  # new
+    def get_queryset(self):
+        context = {
+            'error': 0,
+            'msg': ''
+        }
         query = self.request.GET.get("q")
-        object_list = department_model.objects.filter(
-            Q(name__icontains=query) | Q(
-                department_id__icontains=query)
-        )
+        if not query:
+            context['error'] = 1
+            context['msg'] = 'Name not valid'
+            raise ValidationError 
+        if not context['error']:
+            query = self.request.GET.get("q")
+            object_list = department_model.objects.filter(
+                Q(name__icontains=query) | Q(
+                    department_id__icontains=query)
+            )
         return object_list
 
 
